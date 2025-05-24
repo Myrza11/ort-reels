@@ -1,12 +1,10 @@
 package org.example.aktanoopproject.service;
 
-import org.example.aktanoopproject.dto.AnswerCreateDto;
-import org.example.aktanoopproject.dto.AnswerResponseDto;
-import org.example.aktanoopproject.dto.TaskCreateDto;
-import org.example.aktanoopproject.dto.TaskResponseDto;
+import org.example.aktanoopproject.dto.*;
 import org.example.aktanoopproject.model.Answer;
 import org.example.aktanoopproject.model.Task;
 import org.example.aktanoopproject.model.User;
+import org.example.aktanoopproject.repository.AnswerRepository;
 import org.example.aktanoopproject.repository.TaskRepository;
 import org.example.aktanoopproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable; // ✅
-import java.util.Base64;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +22,9 @@ public class TaskService {
     private TaskRepository taskRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AnswerRepository answerRepository;
+
 
 
     public void createTask(TaskCreateDto dto) {
@@ -97,6 +96,14 @@ public class TaskService {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    public boolean checkAnswer(Long id) {
+        Optional<Answer> answer = answerRepository.getAnswerById(id);
+        if (!answer.isPresent()) {
+            throw new RuntimeException("There is no such answer");
+        }
+        return answer.get().isCorrect();
     }
 
 }

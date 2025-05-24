@@ -7,10 +7,12 @@ import org.springframework.data.repository.query.Param;
 
 import org.springframework.data.domain.Pageable; // ✅
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("SELECT t FROM Task t WHERE t NOT IN :usedTasks")
     List<Task> findNewTasksForUser(@Param("usedTasks") Set<Task> usedTasks, Pageable pageable);
 
+    Optional<Task> getTaskById(Long id);
 }

@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable; // ✅
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +67,11 @@ public class TaskService {
 
     public List<TaskResponseDto> getNewTasksForUser(User user, int limit) {
 
-        List<Task> newTasks = taskRepository.findNewTasksForUser(user.getUsedTasks(), (Pageable) PageRequest.of(0, limit));
+        Set<Task> usedTasks = user.getUsedTasks();
+        if (usedTasks == null) {
+            usedTasks = Collections.emptySet();
+        }
+        List<Task> newTasks = taskRepository.findNewTasksForUser(usedTasks, (Pageable) PageRequest.of(0, limit));
 
         if (newTasks.isEmpty()) {
             List<Task> allTasks = taskRepository.findAll(PageRequest.of(0, limit)).getContent();

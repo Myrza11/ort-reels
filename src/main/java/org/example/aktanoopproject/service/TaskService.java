@@ -1,5 +1,6 @@
 package org.example.aktanoopproject.service;
 
+import org.example.aktanoopproject.dto.AnswerCreateDto;
 import org.example.aktanoopproject.dto.AnswerResponseDto;
 import org.example.aktanoopproject.dto.TaskCreateDto;
 import org.example.aktanoopproject.dto.TaskResponseDto;
@@ -30,19 +31,29 @@ public class TaskService {
             throw new IllegalArgumentException("Должно быть ровно 4 ответа!");
         }
 
+        // Проверка, что ровно 1 правильный ответ
+        long correctCount = dto.getAnswers().stream().filter(AnswerCreateDto::isCorrect).count();
+        if (correctCount != 1) {
+            throw new IllegalArgumentException("Должен быть ровно 1 правильный ответ!");
+        }
+
+        // Создаем новый таск
         Task task = new Task();
         task.setQuestion(Base64.getDecoder().decode(dto.getQuestion()));
 
-        for (int i = 0; i < 4; i++) {
+        // Добавляем ответы
+        for (AnswerCreateDto answerDto : dto.getAnswers()) {
             Answer answer = new Answer();
-            answer.setAnswer(dto.getAnswers().get(i));
-            answer.setCorrect(i == dto.getCorrectIndex()); // правильный индекс
+            answer.setAnswer(answerDto.getAnswer());
+            answer.setCorrect(answerDto.isCorrect());
             answer.setTask(task);
             task.getAnswers().add(answer);
         }
 
+        // Сохраняем в репозиторий
         taskRepository.save(task);
     }
+
 
     public List<TaskResponseDto> getNewTasksForUser(User user, int limit) {
 

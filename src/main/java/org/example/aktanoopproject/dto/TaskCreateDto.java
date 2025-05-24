@@ -9,6 +9,5 @@ import java.util.List;
 @Setter
 public class TaskCreateDto {
     private String question; // base64
-    private List<String> answers;
-    private int correctIndex; // индекс правильного ответа (0..3)
+    private List<AnswerCreateDto> answers;
 }

@@ -4,8 +4,11 @@ FROM eclipse-temurin:17-jdk
 # Указываем рабочую директорию
 WORKDIR /app
 
-# Копируем файлы проекта и собираем JAR
+# Копируем файлы проекта
 COPY . .
+
+# Ставим права на исполняемый файл
+RUN chmod +x ./mvnw
 
 # Собираем проект
 RUN ./mvnw clean package -DskipTests

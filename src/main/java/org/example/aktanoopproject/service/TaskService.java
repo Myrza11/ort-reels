@@ -32,14 +32,22 @@ public class TaskService {
         }
 
         // Проверка, что ровно 1 правильный ответ
-        long correctCount = dto.getAnswers().stream().filter(AnswerCreateDto::isCorrect).count();
+        long correctCount = dto.getAnswers().stream()
+                .filter(answer -> answer.isCorrect() == true)
+                .count();
+        System.out.println(correctCount);
+        System.out.println("вот сколько правильных ответов");
         if (correctCount != 1) {
             throw new IllegalArgumentException("Должен быть ровно 1 правильный ответ!");
         }
 
         // Создаем новый таск
         Task task = new Task();
-        task.setQuestion(Base64.getDecoder().decode(dto.getQuestion()));
+        try {
+            task.setQuestion(dto.getQuestion().getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Добавляем ответы
         for (AnswerCreateDto answerDto : dto.getAnswers()) {

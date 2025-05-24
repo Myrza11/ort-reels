@@ -12,11 +12,9 @@ public class VerificationController {
     @Autowired
     private EmailService emailService;
 
-
-    @GetMapping("/{token}")
+    @GetMapping
     public ResponseEntity<String> verifyEmail(@RequestParam String token) {
-        return ResponseEntity.ok("Email подтвержден, теперь вы можете войти    n/n   " + emailService.verifyEmail(token));
-
+        return ResponseEntity.ok(emailService.verifyEmail(token));
     }
 
     @GetMapping("/exists")

@@ -1,5 +1,6 @@
 package org.example.aktanoopproject.repository;
 
+import org.example.aktanoopproject.model.Interest;
 import org.example.aktanoopproject.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE LOWER(u.name) LIKE CONCAT('%', LOWER(:name), '%')")
     List<User> findByNameLikeIgnoreCase(@Param("name") String name);
 
-
-
+    @Query("SELECT u FROM User u WHERE u.interest IN :interests")
+    List<User> filterByInterest(@Param("interests") Set<Interest> interests);
 }

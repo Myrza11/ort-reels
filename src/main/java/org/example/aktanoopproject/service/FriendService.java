@@ -3,10 +3,8 @@ package org.example.aktanoopproject.service;
 import jakarta.persistence.EntityNotFoundException;
 import org.example.aktanoopproject.model.FriendRequest;
 import org.example.aktanoopproject.model.RequestStatus;
-import org.example.aktanoopproject.model.Student;
 import org.example.aktanoopproject.model.User;
 import org.example.aktanoopproject.repository.FriendRequestRepository;
-import org.example.aktanoopproject.repository.StudentRepository;
 import org.example.aktanoopproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +18,6 @@ public class FriendService {
     private UserRepository userRepository;
     @Autowired
     private FriendRequestRepository friendRequestRepository;
-    @Autowired
-    private StudentRepository studentRepository;
 
     public List<FriendRequest> getMyInviting(User currentUser) {
         return friendRequestRepository.getAllBySender(currentUser);
@@ -31,7 +27,7 @@ public class FriendService {
     }
 
     public void addFriend(Long friendId, User currentUser) {
-        Optional<Student> friendUser = studentRepository.findById(friendId);
+        Optional<User> friendUser = userRepository.findById(friendId);
         if (!friendUser.isPresent()) {
             throw new RuntimeException("User not found");
         }
@@ -40,7 +36,6 @@ public class FriendService {
     }
 
     public void deleteFriend(Long friendId, User currentUser) {
-        // Найти запись по friendId и текущему пользователю (в любом порядке)
         Optional<FriendRequest> request = friendRequestRepository.findByUsersInEitherOrder(friendId, currentUser.getId());
 
         if (request.isPresent()) {

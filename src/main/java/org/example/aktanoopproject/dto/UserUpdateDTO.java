@@ -2,9 +2,12 @@ package org.example.aktanoopproject.dto;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.aktanoopproject.model.Interest;
+
+import java.util.Set;
 
 @Data
-public abstract class BaseUserUpdateDTO {
+public class UserUpdateDTO {
     private String name;
 
     private String surname;
@@ -12,5 +15,6 @@ public abstract class BaseUserUpdateDTO {
     @Size(min = 6)
     private String password;
 
-    private String telegramNickname;
+    private Interest interests;
+
 }

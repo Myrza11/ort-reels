@@ -6,28 +6,22 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.aktanoopproject.model.InterestType;
+import org.example.aktanoopproject.model.Interest;
 
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentDTO {
+public class UserDTO {
     @NotBlank
     private String name;
-
-    @NotBlank
     private String surname;
-
     @Email
     @NotBlank
     private String email;
-
     @Size(min = 6)
+
     private String password;
-
-    private String telegramNickname;
-
-    private Set<String> interests;
+    private Set<Interest> interest;
 }

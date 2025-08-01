@@ -36,8 +36,8 @@ public class FriendController {
     }
 
     @DeleteMapping("/delete/{friendId}")
-    public void deleteFriend(@PathVariable Long friendId, @AuthenticationPrincipal User currentUser) {
-        friendService.deleteFriend(friendId, currentUser);
+    public void deleteFriend(@PathVariable Long friendId, Authentication currentUser) {
+        friendService.deleteFriend(friendId, userService.getUserByEmail(currentUser.getName()));
     }
 
     @PostMapping("/accept/{userId}")

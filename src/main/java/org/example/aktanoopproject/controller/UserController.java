@@ -24,13 +24,13 @@ public class UserController {
     private UserService userService;
 
     @PatchMapping("/update")
-    public void update(@RequestBody UserUpdateDTO updateStudentDTO, @AuthenticationPrincipal User currentUser) {
-        userService.update(updateStudentDTO, currentUser);
+    public void update(@RequestBody UserUpdateDTO updateStudentDTO, Authentication currentUser) {
+        userService.update(updateStudentDTO, userService.getUserByEmail(currentUser.getName()));
     }
 
     @PatchMapping(value = "/avatar-update", consumes = "multipart/form-data")
-    public void updateAvatar(@RequestParam("avatar") MultipartFile avatar, @AuthenticationPrincipal User currentUser) throws IOException {
-        userService.updateAvatar(currentUser.getEmail(), avatar);
+    public void updateAvatar(@RequestParam("avatar") MultipartFile avatar, Authentication currentUser) throws IOException {
+        userService.updateAvatar(userService.getUserByEmail(currentUser.getName()), avatar);
     }
 
     @GetMapping("/filter")
@@ -54,8 +54,8 @@ public class UserController {
     }
 
     @GetMapping("/friends")
-    public List<User> getFriends(@AuthenticationPrincipal User currentUser) {
-        return userService.getFriendsOfUser(currentUser);
+    public List<User> getFriends(Authentication currentUser) {
+        return userService.getFriendsOfUser(userService.getUserByEmail(currentUser.getName()));
     }
 
     @GetMapping("/search")
@@ -64,8 +64,8 @@ public class UserController {
     }
 
     @PostMapping("/save-question/{questionId}")
-    public ResponseEntity<Void> saveQuestion(@AuthenticationPrincipal User currentUser, @PathVariable Long questionId) {
-        userService.saveQuestionForUser(currentUser, questionId);
+    public ResponseEntity<Void> saveQuestion(Authentication currentUser, @PathVariable Long questionId) {
+        userService.saveQuestionForUser(userService.getUserByEmail(currentUser.getName()), questionId);
         return ResponseEntity.ok().build();
     }
     @GetMapping("/saved-questions")

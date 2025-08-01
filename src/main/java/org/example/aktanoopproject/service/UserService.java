@@ -49,17 +49,15 @@ public class UserService {
 
     @Transactional
     public void deleteSavedQuestion(User user, Long taskId) {
-        taskRepository.deleteById(taskId);
+        Optional<Question> question= taskRepository.getTaskById(taskId);
+        if (question.isPresent()) {
+            user.getSavedQuestions().remove(question.get());
+        }
     }
 
 
     @Transactional
-    public void updateAvatar(String email, MultipartFile avatarFile) throws IOException {
-        User currentUser = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        if (currentUser == null) {
-            throw new RuntimeException("Пользователь не найден или не аутентифицирован.");
-        }
+    public void updateAvatar(User currentUser, MultipartFile avatarFile) throws IOException {
         byte[] avatarBytes = avatarFile.getBytes();
         currentUser.setAvatar(avatarBytes);
         userRepository.save(currentUser);

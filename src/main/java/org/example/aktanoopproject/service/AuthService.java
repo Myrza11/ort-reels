@@ -46,9 +46,6 @@ public class AuthService {
         if (!user.isPresent()) {
             throw new RuntimeException("user not found");
         }
-        if (!user.get().isEmailVerified()){
-            throw new RuntimeException("user is not verified");
-        }
         if (!new BCryptPasswordEncoder().matches(password, user.get().getPassword())) {
             throw new RuntimeException("password not match");
         }

@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class ChatGPTService {
 
-    private final String OPENAI_API_KEY = ""; // TODO: Сохрани в .env или application.properties
+    private final String OPENAI_API_KEY = System.getenv("OPENAI_API_KEY");
 
     public String askWithImageAndOptions(String userQuestion, String imageUrl, String answers) {
         try {

@@ -3,6 +3,7 @@ package org.example.aktanoopproject.controller;
 import org.example.aktanoopproject.config.RevokedTokenService;
 import org.example.aktanoopproject.dto.LoginDTO;
 import org.example.aktanoopproject.dto.UserDTO;
+import org.example.aktanoopproject.model.User;
 import org.example.aktanoopproject.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,9 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserDTO student) {
-        authService.register(student);
-        return ResponseEntity.ok("Регистрация успешна. Проверьте email.");
+    public ResponseEntity<User> register(@RequestBody UserDTO student) {
+
+        return ResponseEntity.ok(authService.register(student));
     }
 
     @PostMapping("/login")

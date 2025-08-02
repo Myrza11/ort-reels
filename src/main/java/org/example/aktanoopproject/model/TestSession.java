@@ -28,6 +28,6 @@ public class TestSession {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    @OneToMany
     private List<UserAnswer> userAnswers;
 }

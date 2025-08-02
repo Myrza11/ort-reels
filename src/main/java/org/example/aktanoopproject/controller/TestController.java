@@ -33,14 +33,14 @@ public class TestController {
     }
 
     @PostMapping("/submit")
-    public ResponseEntity<Void> submitAnswer(@RequestBody SubmitAnswerRequestDTO request, Authentication currentUser) {
-        testService.submitAnswer(request.getSessionId(), request.getQuestionId(), request.getAnswerId(), userService.getUserByEmail(currentUser.getName()));
+    public ResponseEntity<Void> submitAnswer(@RequestBody SubmitAnswerRequestDTO request) {
+        testService.submitAnswer(request.getSessionId(), request.getQuestionId(), request.getAnswerId());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{sessionId}/finish")
-    public ResponseEntity<Void> finish(@PathVariable Long sessionId) {
-        testService.finishSession(sessionId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> finish(@PathVariable Long sessionId, Authentication currentUser) {
+
+        return ResponseEntity.ok(testService.finishSession(sessionId, userService.getUserByEmail(currentUser.getName())));
     }
 }

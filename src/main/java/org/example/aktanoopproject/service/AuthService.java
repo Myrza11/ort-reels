@@ -25,7 +25,7 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
-    public void register(UserDTO studentDTO) {
+    public User register(UserDTO studentDTO) {
         User student = new User();
         student.setPassword(new BCryptPasswordEncoder().encode(studentDTO.getPassword()));
         student.setEmailVerified(false);
@@ -39,6 +39,7 @@ public class AuthService {
         tokenRepository.save(token);
 
         emailService.sendVerificationEmail(student.getEmail(), token.getToken());
+        return student;
     }
 
     public String authenticate(String email, String password) {

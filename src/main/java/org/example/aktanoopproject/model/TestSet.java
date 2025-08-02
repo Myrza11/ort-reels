@@ -22,7 +22,4 @@ public class TestSet {
 
     @ManyToMany
     private List<Question> questions; // Можно выбрать из базы
-
-    @OneToMany(mappedBy = "testSet", cascade = CascadeType.ALL)
-    private List<TestSession> sessions;
 }

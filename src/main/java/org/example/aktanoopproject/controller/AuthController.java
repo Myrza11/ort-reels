@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -21,9 +23,11 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserDTO student) {
-
-        return ResponseEntity.ok(authService.register(student));
+    public ResponseEntity<Map<String, String>> register(@RequestBody UserDTO student) {
+        String result = authService.register(student);
+        Map<String, String> json = new HashMap<>();
+        json.put("message", result);
+        return ResponseEntity.ok(json);
     }
 
     @PostMapping("/login")

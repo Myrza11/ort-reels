@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/task")
@@ -32,11 +31,17 @@ public class TaskController {
     public ResponseEntity<Void> createTask(
             @RequestPart("question") MultipartFile question,
             @RequestPart("answers") String answersJson,
-            @RequestPart("questionTheme") String questionThemes) throws IOException {
-        QuestionTheme questionTheme = QuestionTheme.valueOf(questionThemes.trim());
-        taskService.createTask(question, answersJson, questionTheme);
+            @RequestPart("questionTheme") String themesRaw) throws IOException {
+
+        Set<QuestionTheme> questionThemesSet = Arrays.stream(themesRaw.split(","))
+                .map(String::trim)
+                .map(QuestionTheme::valueOf)
+                .collect(Collectors.toSet());
+
+        taskService.createTask(question, answersJson, questionThemesSet);
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("/get-theme")
     public ResponseEntity<List<QuestionTheme>> getTheme() {
         return ResponseEntity.ok(taskService.getTheme());

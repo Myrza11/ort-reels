@@ -39,13 +39,13 @@ public class TaskService {
         return List.of(QuestionTheme.values());
     }
 
-    public void createTask(MultipartFile questionFile, String answersJson, QuestionTheme questionThemes) throws IOException {
+    public void createTask(MultipartFile questionFile, String answersJson, Set<QuestionTheme> questionThemes) throws IOException {
         String base64Image = convertToBase64(questionFile);
         String imageUrl = uploadToImgbb(base64Image);
 
         Question question = new Question();
         question.setQuestion(imageUrl);
-        question.setQuestionTheme(Set.of(questionThemes));
+        question.setQuestionTheme(questionThemes);
 
         ObjectMapper mapper = new ObjectMapper();
         List<Answer> answers = mapper.readValue(answersJson, new TypeReference<List<Answer>>() {});

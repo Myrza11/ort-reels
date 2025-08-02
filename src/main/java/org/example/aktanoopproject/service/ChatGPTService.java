@@ -2,6 +2,7 @@ package org.example.aktanoopproject.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.example.aktanoopproject.model.Answer;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.Map;
 public class ChatGPTService {
 
     private final String OPENAI_API_KEY = System.getenv("OPENAI_API_KEY");
+
 
     public String askWithImageAndOptions(String userQuestion, String imageUrl, String answers) {
         try {

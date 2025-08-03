@@ -70,9 +70,13 @@ public class TaskController {
 
 
     @PostMapping("check/{answerId}")
-    public boolean checkAnswer(@PathVariable Long answerId) {
-        return taskService.checkAnswer(answerId);
+    public ResponseEntity<Map<String, Boolean>> checkAnswer(@PathVariable Long answerId) {
+        boolean isCorrect = taskService.checkAnswer(answerId);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("correct", isCorrect);
+        return ResponseEntity.ok(response);
     }
+
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity<Void> deleteChat(@PathVariable Long taskId) {

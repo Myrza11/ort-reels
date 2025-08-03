@@ -36,5 +36,7 @@ public enum QuestionTheme {
     CAUSE_EFFECT,
     CATEGORY,
     OBJECT_ACTION,
-    PART_WHOLE;
+    PART_WHOLE,
+    RUSSIAN,
+    
 }

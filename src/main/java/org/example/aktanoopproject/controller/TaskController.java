@@ -65,12 +65,18 @@ public class TaskController {
             questionThemes = EnumSet.allOf(QuestionTheme.class);
         }
 
-        return ResponseEntity.ok(taskService.getNewTasksForUser(currentUser, 2, questionThemes));
+        return ResponseEntity.ok(taskService.getNewTasksForUser(currentUser, 10, questionThemes));
     }
 
 
     @PostMapping
     public boolean checkAnswer(@RequestParam Long id) {
         return taskService.checkAnswer(id);
+    }
+
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Void> deleteChat(@PathVariable Long taskId) {
+        taskService.deleteById(taskId);
+        return ResponseEntity.noContent().build();
     }
 }

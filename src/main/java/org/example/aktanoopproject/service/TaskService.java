@@ -156,4 +156,8 @@ public class TaskService {
     public Optional<Question> findById(Long id) {
         return taskRepository.findById(id);
     }
+
+    public void deleteById(Long id) {
+        taskRepository.deleteById(id);
+    }
 }

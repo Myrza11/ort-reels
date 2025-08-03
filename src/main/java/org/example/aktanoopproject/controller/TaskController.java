@@ -69,9 +69,9 @@ public class TaskController {
     }
 
 
-    @PostMapping
-    public boolean checkAnswer(@RequestParam Long id) {
-        return taskService.checkAnswer(id);
+    @PostMapping("check/{answerId}")
+    public boolean checkAnswer(@PathVariable Long answerId) {
+        return taskService.checkAnswer(answerId);
     }
 
     @DeleteMapping("/{taskId}")
